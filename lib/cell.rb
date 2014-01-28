@@ -16,7 +16,7 @@ class Cell
 	end
 
 	def candidates
-		#	(1..9).to_a - neighbours.values
+		("1".."9").to_a - neighbours
 	end
 
 	def add_neighbour(value)
@@ -25,11 +25,12 @@ class Cell
 	end 
  	
  	def solve
-
+ 		return if solved?
+ 		@value = candidates.first if candidates.size == 1
  	end
 
  	def solved?
-
+ 	 	filled_out?
  	end
 
 

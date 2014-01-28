@@ -8,6 +8,14 @@ class Grid
 		find_neighbours
 	end
 
+	def try_to_solve
+		cells.each{|cell| cell.solve}
+	end
+
+	def solved?
+		cells.all?{|cell| cell.solved?}
+	end
+
 	def solve
 
 	end
