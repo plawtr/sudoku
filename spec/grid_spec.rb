@@ -45,12 +45,22 @@ let(:solved_grid) {Grid.new('615493872348127956279568431496832517521746389783915
  	end
 
   context "solving sudoku" do
-    it "can solve the puzzle" do
+    it "can solve an easy puzzle" do
       expect(grid.solved?).to be_false
       grid.solve
       expect(grid.solved?).to be_true
       expect(grid.to_s).to eq('615493872348127956279568431496832517521746389783915264952681743864379125137254698')
     end
+
+		it "can solve another easy puzzle" do
+			easy_grid = Grid.new('078090063009308450006502010902007000034010708000600395065049100200080070410203906')
+			expect(easy_grid.solved?).to be_false
+      easy_grid.solve
+      expect(easy_grid.solved?).to be_true
+      expect(easy_grid.to_s).to eq('578491263129368457346572819952837641634915728781624395865749132293186574417253986')
+    end
+
+
   end
 
 end
