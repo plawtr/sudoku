@@ -70,6 +70,14 @@ let(:hard_grid) {Grid.new(hard_puzzle)}
       expect(easy_grid.to_s).to eq('578491263129368457346572819952837641634915728781624395865749132293186574417253986')
     end
 
+    it "should refuse to solve an unsolvable puzzle" do
+    	unsolvable_grid = Grid.new("815000694003600871070090253050007140000045780000100930001000568008500319090000427")
+			expect(unsolvable_grid.solved?).to be_false
+      unsolvable_grid.solve
+      puts unsolvable_grid.inspect
+      expect(unsolvable_grid.solved?).to be_false
+    end
+
 	context "solving non-easy sudoku" do
     it "can steal a solution" do
     	zero_grid.steal_solution(solved_grid) 
@@ -80,9 +88,11 @@ let(:hard_grid) {Grid.new(hard_puzzle)}
     it "can solve a hard sudoku" do 
     	expect(hard_grid.solved?).to be_false
       hard_grid.solve
-      expect(hard_grid.solved?).to be_true 
-      expect(hard_grid.to_s).to eq('')
+      #expect(hard_grid.solved?).to be_true 
+      expect(hard_grid.to_s).to eq('812753649943682175675491283154237896369845721287169534521974368438526917796318452')
     end
+
+
   end
 
   end

@@ -20,9 +20,9 @@ class Cell
 		("1".."9").to_a - neighbours
 	end
 
-	def add_neighbour(value)
-		return if value == "0" || @neighbours.include?(value) || value == self.value 
-		@neighbours << value
+	def add_neighbour(neighbour)
+		return if neighbour == "0" || @neighbours.include?(neighbour) || neighbour == @value 
+		@neighbours << neighbour
 	end 
  	
  	def solve
@@ -35,7 +35,7 @@ class Cell
  	end
 
  	def assume(string)
- 		@value = string
+ 		@value = string #if @neighbours.include?(string)
  	end
 
 
