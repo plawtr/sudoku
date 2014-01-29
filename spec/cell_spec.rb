@@ -5,8 +5,7 @@ describe Cell do
 	let(:cell) {Cell.new("0", 0)}
 	let(:another_cell) {Cell.new("6", 1)}
 
-	it "initializees with the value" do 
-		
+	it "initializees with the value" do 		
 		expect(cell.value).to eq("0")
 	end
 
@@ -48,6 +47,11 @@ describe Cell do
 		cell.solve
 		expect(cell.value).to eq("9")
 		expect(cell.solved?).to be_true
+	end
+
+	it "can assume a value" do
+		cell.assume("6")
+		expect(cell.value).to eq("6")
 	end
 
 

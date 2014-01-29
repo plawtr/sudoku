@@ -11,7 +11,8 @@ class Cell
 	end
 
 	def filled_out?
-		return false if value.nil? || value == "0"
+		return false if value.nil? 
+		return false if value == "0"
 		return true 
 	end
 
@@ -31,6 +32,10 @@ class Cell
 
  	def solved?
  	 	filled_out?
+ 	end
+
+ 	def assume(string)
+ 		@value = string
  	end
 
 

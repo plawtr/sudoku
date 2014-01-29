@@ -51,7 +51,23 @@ class Grid
 			looping = outstanding == outstanding_before
 			outstanding_before = outstanding
 		end		
+
+		try_harder unless solved?
+
 	end
+
+	def try_harder
+
+		#select an unsolved cell with fewest number of candidates
+		blank_cell = cells.select{|cell| !cell.solved?}.min_by{|cell| cell.candidates.size}
+		blank_cell.candidates.each do |candidate|
+			blank_cell.assume(candidate)
+			board = self.replicate
+			board.solve
+			steal_solution(board) and return if board.solved?
+		end
+	end
+
 
 	def inspect
 		output = ""
@@ -62,6 +78,14 @@ class Grid
 
 	def to_s
 		@cells.map{|cell| cell.value.to_i}.join
+	end
+
+	def replicate
+		Grid.new(self.to_s)
+	end
+
+	def steal_solution(board)
+		@cells = board.cells
 	end
 
 end
