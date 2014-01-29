@@ -40,5 +40,17 @@ let(:solved_grid) {Grid.new('615493872348127956279568431496832517521746389783915
 		expect(solved_grid.solved?).to be_true
  	end
 
+ 	it "can inspect itself" do 
+		expect(solved_grid.inspect).to eq("[[6, 1, 5], [4, 9, 3], [8, 7, 2]]\n[[3, 4, 8], [1, 2, 7], [9, 5, 6]]\n[[2, 7, 9], [5, 6, 8], [4, 3, 1]]\n\n[[4, 9, 6], [8, 3, 2], [5, 1, 7]]\n[[5, 2, 1], [7, 4, 6], [3, 8, 9]]\n[[7, 8, 3], [9, 1, 5], [2, 6, 4]]\n\n[[9, 5, 2], [6, 8, 1], [7, 4, 3]]\n[[8, 6, 4], [3, 7, 9], [1, 2, 5]]\n[[1, 3, 7], [2, 5, 4], [6, 9, 8]]\n\n")
+ 	end
+
+  context "solving sudoku" do
+    it "can solve the puzzle" do
+      expect(grid.solved?).to be_false
+      grid.solve
+      expect(grid.solved?).to be_true
+      expect(grid.to_s).to eq('615493872348127956279568431496832517521746389783915264952681743864379125137254698')
+    end
+  end
 
 end

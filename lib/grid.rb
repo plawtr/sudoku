@@ -8,16 +8,8 @@ class Grid
 		find_neighbours
 	end
 
-	def try_to_solve
-		cells.each{|cell| cell.solve}
-	end
-
 	def solved?
 		cells.all?{|cell| cell.solved?}
-	end
-
-	def solve
-
 	end
 
 	def find_neighbours
@@ -42,11 +34,34 @@ class Grid
 		 			cells.last.add_neighbour(cells.first.value)
 		 	end
 		end
-
-
-
 	end
 
+	def try_to_solve
+		cells.each{|cell| cell.solve}
+		find_neighbours
+	end
 
+	def solve
+		outstanding_before = cells.size
+		looping = false
+
+		while !solved? && !looping 
+			try_to_solve
+			outstanding = @cells.count{|c| c.solved?}
+			looping = outstanding == outstanding_before
+			outstanding_before = outstanding
+		end		
+	end
+
+	def inspect
+		output = ""
+		a = @cells.map{|cell| cell.value.to_i}.each_slice(3).to_a
+		3.times{3.times{output<<(a.shift(3).inspect)+"\n"}; output<<"\n" }
+		output
+	end
+
+	def to_s
+		@cells.map{|cell| cell.value.to_i}.join
+	end
 
 end
