@@ -1,5 +1,3 @@
-
-
 class Cell 
 
 	attr_accessor :value, :neighbours
@@ -11,18 +9,15 @@ class Cell
 	end
 
 	def filled_out?
-		return false if value.nil? 
-		return false if value == "0"
-		return true 
+		@value && @value != "0" 
 	end
 
 	def candidates
-		("1".."9").to_a - neighbours
+		("1".."9").to_a - neighbours_values
 	end
 
-	def add_neighbour(neighbour)
-		return if neighbour == "0" || @neighbours.include?(neighbour) || neighbour == @value 
-		@neighbours << neighbour
+	def add_neighbour(line)
+		@neighbours << line
 	end 
  	
  	def solve
@@ -35,8 +30,13 @@ class Cell
  	end
 
  	def assume(string)
- 		@value = string #if @neighbours.include?(string)
+ 		@value = string 
  	end
+
+ 	def neighbours_values
+ 		@neighbours.flatten.map{|cell| cell.value}.uniq.reject{|value| value == "0" }
+ 	end
+
 
 
 end

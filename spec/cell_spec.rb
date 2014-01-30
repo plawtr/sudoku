@@ -1,9 +1,20 @@
 require_relative "../lib/cell.rb"
 
+
+
+
 describe Cell do 
+
+	def cellulize(array)
+		array.map.with_index {|v,i| Cell.new(v, i)}
+	end
 
 	let(:cell) {Cell.new("0", 0)}
 	let(:another_cell) {Cell.new("6", 1)}
+
+	let(:row) {cellulize(["0","5","0","9","0","4","0","0","0"])}
+  let(:column) {cellulize(["2","0","0","0","8","0","0","0","1"])}
+  let(:box) {cellulize(["2","0","0","0","5","0","0","3","7"])}
 
 	it "initializees with the value" do 		
 		expect(cell.value).to eq("0")
@@ -24,14 +35,18 @@ describe Cell do
 		expect{cell.neighbours}.not_to raise_error(Exception)
 	end
 
-	it "is able to add a neighbour cell" do
-		cell.add_neighbour(another_cell.value)
-		expect(cell.neighbours).to eq([another_cell.value])
+	it "is able to add neighbours" do
+		cell.add_neighbour(row)
+		expect(cell.neighbours_values.sort).to eq(["4","5","9"])
 	end
 
 	it "is able to create candidate values" do
-		cell.neighbours = ["1", "2", "3"]
-		expect(cell.candidates).to eq(["4", "5", "6", "7", "8", "9"])
+		cell.add_neighbour(row)
+    cell.add_neighbour(column)
+    cell.add_neighbour(box)
+		#expect(cell.neighbours).to eq([[row], [column], [box]])
+		expect(cell.neighbours_values.sort).to eq(["1","2","3","4","5","7","8","9"])
+		expect(cell.candidates).to eq(["6"])
 	end
 
 	it "is able to tell if it is solved" do
@@ -41,11 +56,13 @@ describe Cell do
 
 	it "is able to solve depending on neighbouring values" do
 		expect(cell.solved?).to be_false
-		cell.neighbours = ["1", "2", "3", "4", "5", "6", "7", "8"]
-		expect(cell.candidates).to eq(["9"])
+		cell.add_neighbour(row)
+    cell.add_neighbour(column)
+    cell.add_neighbour(box)
+		expect(cell.candidates).to eq(["6"])
 		expect(cell.candidates.size).to eq(1)
 		cell.solve
-		expect(cell.value).to eq("9")
+		expect(cell.value).to eq("6")
 		expect(cell.solved?).to be_true
 	end
 

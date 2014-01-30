@@ -17,26 +17,26 @@ let(:hard_grid) {Grid.new(hard_puzzle)}
 		expect(grid.cells.map{|cell| cell.value}.join).to eq(puzzle) 
 	end
 
-	it "has a method to solve the puzzle" do  
-		expect{grid.solve}.not_to raise_error(Exception)
-	end
+	# it "has a method to solve the puzzle" do  
+	# 	expect{grid.solve}.not_to raise_error(Exception)
+	# end
 
 	it "finds no cells' neighbours' values for a zero string" do
-		expect(zero_grid.cells.first.neighbours).to eq([])
+		expect(zero_grid.cells.first.neighbours_values).to eq([])
 	end
 
 	it "finds all cells' neighbours' values for a non-zero string" do
-		expect(grid.cells.first.neighbours.sort).to eq(["1", "2", "3", "4", "5", "7", "8", "9"])
-		expect(grid.cells[3].neighbours.sort).to eq([ "1", "2", "3", "5", "6", "8", "9"])
-		expect(grid.cells.last.neighbours.sort).to eq(["2", "3", "4", "5", "6", "7"])
-		expect(grid.cells[-2].neighbours.sort).to eq(["1", "2", "3", "4", "5", "6", "7", "8"])
-		expect(grid.cells[1].neighbours.sort).to eq(["2", "3", "5", "6", "7", "9"])
+		expect(grid.cells.first.neighbours_values.sort).to eq(["1", "2", "3", "4", "5", "7", "8", "9"])
+		expect(grid.cells[3].neighbours_values.sort).to eq([ "1", "2", "3", "5", "6", "8", "9"])
+		expect(grid.cells.last.neighbours_values.sort).to eq(["2", "3", "4", "5", "6", "7"])
+		expect(grid.cells[-2].neighbours_values.sort).to eq(["1", "2", "3", "4", "5", "6", "7", "8"])
+		expect(grid.cells[1].neighbours_values.sort).to eq(["1","2", "3", "5", "6", "7", "9"])
 	end
  	
  	it "tries to solve by asking each cell to solve" do
- 		dupe = zero_grid
+ 		zero_grid
  		zero_grid.try_to_solve
- 		expect(dupe).to eq(zero_grid)	
+ 		expect(zero_grid.to_s).to eq(zero_puzzle)	
  	end
 
  	it "knows if it is solved" do
@@ -74,7 +74,6 @@ let(:hard_grid) {Grid.new(hard_puzzle)}
     	unsolvable_grid = Grid.new("815000694003600871070090253050007140000045780000100930001000568008500319090000427")
 			expect(unsolvable_grid.solved?).to be_false
       unsolvable_grid.solve
-      puts unsolvable_grid.inspect
       expect(unsolvable_grid.solved?).to be_false
     end
 
@@ -88,10 +87,17 @@ let(:hard_grid) {Grid.new(hard_puzzle)}
     it "can solve a hard sudoku" do 
     	expect(hard_grid.solved?).to be_false
       hard_grid.solve
-      #expect(hard_grid.solved?).to be_true 
+      expect(hard_grid.solved?).to be_true 
       expect(hard_grid.to_s).to eq('812753649943682175675491283154237896369845721287169534521974368438526917796318452')
     end
 
+    it "can solve another hard sudoku" do 
+    	hard_grid = Grid.new("080020000030000600000001000000630080100000500200000000000500401002300000700000000")
+    	expect(hard_grid.solved?).to be_false
+      hard_grid.solve
+      expect(hard_grid.solved?).to be_true 
+      expect(hard_grid.to_s).to eq("689423715431857629527961843974635182163248597258719364396582471812374956745196238")
+    end
 
   end
 
